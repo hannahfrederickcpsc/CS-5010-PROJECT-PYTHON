@@ -1,8 +1,3 @@
-"""
-Homework: Python and Web Scraper
-
-"""
-
 # find_all documentation: https://www.crummy.com/software/BeautifulSoup/bs4/doc/#find-all
 # HTML table object documentation: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
 # how to load in a saved html file instead of requesting one: https://stackoverflow.com/questions/21570780/using-python-and-beautifulsoup-saved-webpage-source-codes-into-a-local-file

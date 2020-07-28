@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 25 09:03:11 2020
+
+@author: seangrace
+"""
+
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+
+url = "https://www.elections.virginia.gov/resultsreports/registrationturnout-statistics/"
+response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) #accesses the website
+
+# turning the response from the website into an html object that we can turn into a soup object
+html = response.content
+
+# making the html possible to sort through
+soup = BeautifulSoup(html) 
+# take a look at the data to try to find what we need to extract
+print(soup.prettify())
+
+# table object to extract different data types from
+table = soup.find("table", attrs = {'class': "statistics_table"})
+print(table)
+# iterate over the table soup item to create a list containing column names
+columns = [col.get_text() for col in table.find_all("th")] # table headers are stored in "th" objects
+print(columns)
+
+#create df which the data will be concated onto
+final_df = pd.DataFrame(columns=columns)
+print(final_df)
+
+#each row is in a 'tr' element
+rows = table.find_all('tr')
+print(rows)
+print(len(rows))
+#delete pointless row
+del rows[0]
+
+#iterate over the rows to extract table data stored in 'td' elements
+for row in rows:
+    row1 = [row1.get_text() for row1 in row.find_all('td')]
+    
+    # place each row in a temporary data frame to add onto our final dataframe
+    temp_df = pd.DataFrame(row1).transpose()
+    temp_df.columns = columns
+    
+    # concat temporary dataframe (row) onto final datafram
+    final_df = pd.concat([final_df, temp_df], ignore_index=True)
+    
+print(final_df)
+final_df.head()
+final_df.columns
+final_df['Percentage Change from Previous Year'].head()
+
+final_df.to_csv(r"/Users/seangrace/Documents/Data/Virginia_Voting_Data.csv", index = False, sep=',')

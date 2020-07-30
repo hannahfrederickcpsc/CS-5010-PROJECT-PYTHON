@@ -36,8 +36,8 @@ for row in table_body.find_all('tr', class_="election_item"):
 
         # add party, total votes, and % of total votes to the dictionary for a single year's election
         single_year['Party'] = sub_row.td.find('div', class_="party").text
-        single_year['Vote Count'] = int(total_votes_str)
-        single_year['Percent of Total Votes'] = float(votes_percentage_str)
+        single_year["Winner's Vote Count"] = int(total_votes_str)
+        single_year["Winner's Percent of Total Votes"] = float(votes_percentage_str)
 
     # add results from each row to the main list
     election_results.append(single_year)
@@ -45,7 +45,7 @@ for row in table_body.find_all('tr', class_="election_item"):
 # convert election_results list of dictionaries into csv
 filename = 'elections_results.csv'
 with open(filename, 'w', newline='') as f: 
-    w = csv.DictWriter(f,['Year', 'Office', 'District', 'Winner', 'Party', 'Vote Count', 'Percent of Total Votes']) 
+    w = csv.DictWriter(f,['Year', 'Office', 'District', 'Winner', 'Party', "Winner's Vote Count", "Winner's Percent of Total Votes"]) 
     w.writeheader() 
     for year in election_results: 
         w.writerow(year)

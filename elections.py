@@ -22,8 +22,8 @@ for row in table_body.find_all('tr', class_="election_item"):
     sub_table_container = row.find("td", class_="candidates_container_cell")
 
     single_year["Year"] = year.text
-    single_year["Office"] = office.text
-    single_year["District"] = district.text
+    # single_year["Office"] = office.text
+    # single_year["District"] = district.text
     single_year["Winner"] = sub_table_container.div.span.text
 
     # enter the drop down tables in each row of the main table only for the winning candidate
@@ -45,7 +45,7 @@ for row in table_body.find_all('tr', class_="election_item"):
 # convert election_results list of dictionaries into csv
 filename = 'elections_results.csv'
 with open(filename, 'w', newline='') as f: 
-    w = csv.DictWriter(f,['Year', 'Office', 'District', 'Winner', 'Party', "Winner's Vote Count", "Winner's Percent of Total Votes"]) 
+    w = csv.DictWriter(f,['Year', 'Winner', 'Party', "Winner's Vote Count", "Winner's Percent of Total Votes"]) 
     w.writeheader() 
     for year in election_results: 
         w.writerow(year)

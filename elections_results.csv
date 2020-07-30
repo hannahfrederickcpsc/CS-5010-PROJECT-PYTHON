@@ -1,25 +1,25 @@
-Year,Office,District,Winner
-2016,President,Statewide,Hillary R. Clinton
-2012,President,Statewide,Barack Obama
-2008,President,Statewide,Barack Obama
-2004,President,Statewide,Bush and Cheney
-2000,President,Statewide,Bush and Cheney
-1996,President,Statewide,Dole and Kemp
-1992,President,Statewide,George W. Bush
-1988,President,Statewide,George H. Bush
-1984,President,Statewide,Ronald W. Reagan
-1980,President,Statewide,Ronald W. Reagan
-1976,President,Statewide,Gerald Ford
-1972,President,Statewide,Richard Nixon
-1968,President,Statewide,Richard Nixon
-1964,President,Statewide,Lyndon B. Johnson
-1960,President,Statewide,Richard Nixon
-1956,President,Statewide,Dwight D. Eisenhower
-1952,President,Statewide,Dwight D. Eisenhower
-1948,President,Statewide,Harry S. Truman
-1944,President,Statewide,Franklin D. Roosevelt
-1940,President,Statewide,Franklin D. Roosevelt
-1936,President,Statewide,Franklin D. Roosevelt
-1932,President,Statewide,Franklin D. Roosevelt
-1928,President,Statewide,Herbert Hoover
-1924,President,Statewide,John W. Davis
+Year,Office,District,Winner,Winner Party,Winner Total Votes,Winner Vote %
+2016,President,Statewide,Hillary R. Clinton,Democratic,1981473,49.7
+2012,President,Statewide,Barack Obama,Democratic,1971820,51.1
+2008,President,Statewide,Barack Obama,Democratic,1959532,52.6
+2004,President,Statewide,Bush and Cheney,Republican,1716959,53.7
+2000,President,Statewide,Bush and Cheney,Republican,1437490,52.5
+1996,President,Statewide,Dole and Kemp,Republican,1138350,47.1
+1992,President,Statewide,George W. Bush,Republican,1150517,45.0
+1988,President,Statewide,George H. Bush,Republican,1309162,59.7
+1984,President,Statewide,Ronald W. Reagan,Republican,1337078,62.3
+1980,President,Statewide,Ronald W. Reagan,Republican,989609,53.0
+1976,President,Statewide,Gerald Ford,Republican,836554,49.3
+1972,President,Statewide,Richard Nixon,Republican,988493,67.8
+1968,President,Statewide,Richard Nixon,Republican,590319,43.4
+1964,President,Statewide,Lyndon B. Johnson,Democratic,558038,53.6
+1960,President,Statewide,Richard Nixon,Republican,404521,52.4
+1956,President,Statewide,Dwight D. Eisenhower,Republican,386459,55.4
+1952,President,Statewide,Dwight D. Eisenhower,Republican,349037,56.3
+1948,President,Statewide,Harry S. Truman,Democratic,200786,47.9
+1944,President,Statewide,Franklin D. Roosevelt,Democratic,242276,57.2
+1940,President,Statewide,Franklin D. Roosevelt,Democratic,235961,67.9
+1936,President,Statewide,Franklin D. Roosevelt,Democratic,234980,70.2
+1932,President,Statewide,Franklin D. Roosevelt,Democratic,203979,68.8
+1928,President,Statewide,Herbert Hoover,Republican,164609,53.7
+1924,President,Statewide,John W. Davis,Democratic,139716,62.6

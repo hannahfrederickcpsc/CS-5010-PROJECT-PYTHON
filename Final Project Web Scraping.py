@@ -17,42 +17,64 @@ response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) #accesses th
 html = response.content
 
 # making the html possible to sort through
-soup = BeautifulSoup(html) 
+soup = BeautifulSoup(html, 'html.parser') 
 # take a look at the data to try to find what we need to extract
-print(soup.prettify())
+#print(soup.prettify())
 
 # table object to extract different data types from
 table = soup.find("table", attrs = {'class': "statistics_table"})
-print(table)
+#print(table)
 # iterate over the table soup item to create a list containing column names
 columns = [col.get_text() for col in table.find_all("th")] # table headers are stored in "th" objects
-print(columns)
+#print(columns)
 
 #create df which the data will be concated onto
 final_df = pd.DataFrame(columns=columns)
-print(final_df)
+#print(final_df)
 
 #each row is in a 'tr' element
 rows = table.find_all('tr')
-print(rows)
-print(len(rows))
+#print(rows)
+#print(len(rows))
 #delete pointless row
 del rows[0]
+
+#function to return numeric strings converted to floats
+def only_numerics(seq):
+    seq_type= type(seq)
+    return float(seq_type().join(filter(seq_type.isdigit, seq)))
+
+#function to return percent strings converted to floats
+def percentages(seq):
+    clean_seq = seq.replace(' ', '')
+    clean_seq = clean_seq.strip('*')
+    return float(clean_seq.strip('%'))/100
 
 #iterate over the rows to extract table data stored in 'td' elements
 for row in rows:
     row1 = [row1.get_text() for row1 in row.find_all('td')]
     
+    row_list = list()
+    for text in row1:
+        if '%' in text:
+            row_list.append(percentages(text)) #convert a percent string to a float 
+        elif '%' not in text and ('***' != text or '' != text):
+            try:
+                row_list.append(only_numerics(text)) #convert a numeric string to a float
+            except ValueError:
+                row_list.append(None) #append none if string is not a percent or a number
+    
     # place each row in a temporary data frame to add onto our final dataframe
-    temp_df = pd.DataFrame(row1).transpose()
+    temp_df = pd.DataFrame(row_list).transpose()
     temp_df.columns = columns
     
     # concat temporary dataframe (row) onto final datafram
     final_df = pd.concat([final_df, temp_df], ignore_index=True)
-    
+
+
 print(final_df)
 final_df.head()
 final_df.columns
 final_df['Percentage Change from Previous Year'].head()
 
-final_df.to_csv(r"/Users/seangrace/Documents/Data/Virginia_Voting_Data.csv", index = False, sep=',')
+final_df.to_csv(r"Virginia_Voting_Data.csv", index = False, sep=',')

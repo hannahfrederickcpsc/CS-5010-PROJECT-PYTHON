@@ -78,7 +78,7 @@ final_df.head()
 final_df.columns
 final_df['Percentage Change from Previous Year'].head()
 
-final_df.to_csv(r"Virginia_Voting_Data.csv", index = False, sep=',')
+final_df.to_csv(r"voter_registration.csv", index = False, sep=',')
 
 ### data cleaning/merging section ###
 

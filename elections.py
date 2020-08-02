@@ -9,7 +9,7 @@ soup = BeautifulSoup(open('va_elections.html'), 'html.parser')
 
 election_results = []
 
-table_body = soup.find('tbody')     # grab the body of the table element                                     
+table_body = soup.find('tbody')     # grab the body of the table element                                 
 
 # grab only the rows that are election items (tr = table row)                                                                        
 for row in table_body.find_all('tr', class_="election_item"):       
@@ -37,7 +37,7 @@ for row in table_body.find_all('tr', class_="election_item"):
         # add party, total votes, and % of total votes to the dictionary for a single year's election
         single_year['Party'] = sub_row.td.find('div', class_="party").text
         single_year["Winner's Vote Count"] = int(total_votes_str)
-        single_year["Winner's Percent of Total Votes"] = float(votes_percentage_str)
+        single_year["Winner's Percent of Total Votes"] = float(votes_percentage_str)/100
 
     # add results from each row to the main list
     election_results.append(single_year)

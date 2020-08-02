@@ -33,7 +33,7 @@ class turnoutDifferencetest(unittest.TestCase):
         
 # 2 tailed t-test to see if this is a significant difference in means
 stats.ttest_ind(pres_years['Turnout (% Voting of Total Registered)'], nonpres_years['Turnout (% Voting of Total Registered)'], equal_var=False)
-
+print('The p-value of the two-tailed t-test is very low, indicating that there is a significant difference in the mean turnout in presidential election years versus non-presidential election years.')
 
 # =======================================================================================================
 

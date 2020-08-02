@@ -9,7 +9,7 @@ soup = BeautifulSoup(open('senate_election.html'), 'html.parser')
 
 election_results = []
 
-table_body = soup.find('tbody')     # grab the body of the table element                                     
+table_body = soup.find('tbody')     # grab the body of the table element                                 
 
 # grab only the rows that are election items (tr = table row)                                                                        
 for row in table_body.find_all('tr', class_="election_item"):       

@@ -50,6 +50,8 @@ def percentages(seq):
     clean_seq = clean_seq.strip('*')
     return float(clean_seq.strip('%'))/100
 
+### web scraping section ###
+
 #iterate over the rows to extract table data stored in 'td' elements
 for row in rows:
     row1 = [row1.get_text() for row1 in row.find_all('td')]
@@ -72,9 +74,124 @@ for row in rows:
     final_df = pd.concat([final_df, temp_df], ignore_index=True)
 
 
-print(final_df)
 final_df.head()
 final_df.columns
 final_df['Percentage Change from Previous Year'].head()
 
 final_df.to_csv(r"voter_registration.csv", index = False, sep=',')
+
+### data cleaning/merging section ###
+
+voting_data = pd.read_csv("Virginia_Voting_Data.csv")
+election_results = pd.read_csv("elections_results.csv")
+# cast year to integer in both dataframes
+voting_data["Year"] = voting_data["Year"].astype(int)
+election_results["Year"] = election_results["Year"].astype(int)
+# specify outer join with how='outer'
+df_final = pd.merge(voting_data, election_results,  on='Year', how='outer')
+df_final = df_final.loc[:43,]
+df_final = df_final.rename(columns={"Winner" : "Winner (VA)"})
+# index=False hides index column, sep="," separates at commas
+df_final.to_csv("completed_cleaned.csv", index=False, sep=",")
+
+#%%
+### hannah's query asking section ###
+
+summ_stats = df_final.describe()
+
+party_summ_stats = df_final.groupby('Party').describe()
+
+democratic_df = df_final.loc[df_final['Party'] == 'Democratic']
+
+republican_df = df_final.loc[df_final['Party'] == 'Republican']
+
+pre_motor_voter = df_final.loc[df_final['Year'] < 1996]
+
+post_motor_voter = df_final.loc[df_final['Year'] >= 1996]
+
+pre_motor_voter_stats = pre_motor_voter.describe()
+
+post_motor_voter_stats = post_motor_voter.describe()
+#%%
+### sean's query asking section ###
+
+pres_years = df_final.loc[df_final['Year']%4==0]
+
+pres_years.columns
+
+pres_years["Change in Total Voting"] = (pres_years["Total Voting"] / pres_years["Total Voting"].shift(-1)) -1
+
+least_perc_change = abs(pres_years["Change in Total Voting"]).min()
+voting_decrease = pres_years["Change in Total Voting"].min()
+most_perc_change = abs(pres_years["Change in Total Voting"]).max()
+
+least_perc_change_years = pres_years[pres_years["Change in Total Voting"] == least_perc_change] #1988
+voting_decrease_years = pres_years[pres_years["Change in Total Voting"] == voting_decrease] #1996
+most_perc_change_years = pres_years[pres_years["Change in Total Voting"] == most_perc_change] #2004
+
+#%%
+### data graphing section ###
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+pres_years = df_final.loc[df_final['Year']%4==0]
+
+year_total_registered = sns.scatterplot(x="Year", y="Total Registered", data=df_final).set_title('Virginia Voters Registered Through the Years')
+plt.savefig('year_total_registered.pdf')
+year_total_registered_pres = sns.scatterplot(x="Year", y="Total Registered", data=pres_years).set_title('Virginia Voters Registered with Highlighted Presidential Years')
+plt.savefig('year_total_registered_pres.pdf')
+plt.clf()
+
+year_total_voted = sns.scatterplot(x="Year", y="Total Voting", data=df_final).set_title('Virginia Voters Voting Through the Years')
+plt.savefig('year_total_voted.pdf')
+year_total_voted_pres = sns.scatterplot(x="Year", y="Total Voting", data=pres_years).set_title('Virginia Voters Voting with Highlighted Presidential Years')
+plt.savefig('year_total_voted_pres.pdf')
+plt.clf()
+
+year_total_absentee = sns.scatterplot(x="Year", y="Voting Absentee (Included in Total Voting)", data=df_final).set_title('Virginia Voters Voting Absentee Through the Years')
+plt.savefig('year_total_absentee.pdf')
+year_total_absentee_pres = sns.scatterplot(x="Year", y="Voting Absentee (Included in Total Voting)", data=pres_years).set_title('Virginia Voters Voting Absentee with Highlighted Presidential Years')
+plt.savefig('year_total_absentee_pres.pdf')
+plt.clf()
+
+year_voter_turnout = sns.scatterplot(x="Year", y="Turnout (% Voting of Total Registered)", data=df_final).set_title('Virginia Voter Turnout Through the Years')
+plt.savefig('year_voter_turnout.pdf')
+year_voter_turnout_pres = sns.scatterplot(x="Year", y="Turnout (% Voting of Total Registered)", data=pres_years).set_title('Virginia Voter Turnout with Highlighted Presidential Years')
+plt.savefig('year_voter_turnout_pres.pdf')
+plt.clf()
+
+year_total_registered_party = sns.scatterplot(x="Year", y="Total Registered", hue="Party", data=df_final).set_title('Total Registered Virginia Voters Through the Years By Winning Party')
+plt.savefig('year_total_registered_party.pdf')
+plt.clf()
+
+#%%
+
+post_motor_voter = df_final.loc[df_final['Year'] >= 1996]
+
+year_total_registered = sns.scatterplot(x="Year", y="Total Registered", data=df_final).set_title('Virginia Voters Registered Through the Years')
+plt.savefig('year_total_registered.pdf')
+year_total_registered_post = sns.scatterplot(x="Year", y="Total Registered", data=post_motor_voter).set_title('Virginia Voters Registered with Highlighted Motor Voter Years')
+plt.savefig('year_total_registered_post.pdf')
+plt.clf()
+
+year_total_voted = sns.scatterplot(x="Year", y="Total Voting", data=df_final).set_title('Virginia Voters Voting Through the Years')
+plt.savefig('year_total_voted.pdf')
+year_total_voted_post = sns.scatterplot(x="Year", y="Total Voting", data=post_motor_voter).set_title('Virginia Voters Voting with Highlighted Motor Voter Years')
+plt.savefig('year_total_voted_post.pdf')
+plt.clf()
+
+year_total_absentee = sns.scatterplot(x="Year", y="Voting Absentee (Included in Total Voting)", data=df_final).set_title('Virginia Voters Voting Absentee Through the Years')
+plt.savefig('year_total_absentee.pdf')
+year_total_absentee_post = sns.scatterplot(x="Year", y="Voting Absentee (Included in Total Voting)", data=post_motor_voter).set_title('Virginia Voters Voting Absentee with Highlighted Motor Voter Years')
+plt.savefig('year_total_absentee_post.pdf')
+plt.clf()
+
+year_voter_turnout = sns.scatterplot(x="Year", y="Turnout (% Voting of Total Registered)", data=df_final).set_title('Virginia Voter Turnout Through the Years')
+plt.savefig('year_voter_turnout.pdf')
+year_voter_turnout_post = sns.scatterplot(x="Year", y="Turnout (% Voting of Total Registered)", data=post_motor_voter).set_title('Virginia Voter Turnout with Highlighted Motor Voter Years')
+plt.savefig('year_voter_turnout_post.pdf')
+plt.clf()
+
+
+
+

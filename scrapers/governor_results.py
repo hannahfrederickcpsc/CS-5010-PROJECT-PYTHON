@@ -3,9 +3,16 @@
 # how to load in a saved html file instead of requesting one: https://stackoverflow.com/questions/21570780/using-python-and-beautifulsoup-saved-webpage-source-codes-into-a-local-file
 
 import csv
+import requests
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(open('governor_election.html'), 'html.parser')
+url = "https://historical.elections.virginia.gov/elections/search/year_from:1924/year_to:2017/office_id:3/stage:General"
+response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) # accesses the website
+
+# turning the response from the website into an html object that we can turn into a soup object
+html = response.content
+
+soup = BeautifulSoup(html, 'html.parser')
 
 election_results = []
 

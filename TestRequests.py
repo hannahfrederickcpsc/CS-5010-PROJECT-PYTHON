@@ -17,6 +17,7 @@ class TestRequests(unittest.TestCase):
         url = "https://historical.elections.virginia.gov/elections/search/year_from:1924/year_to:2019/office_id:1/stage:General"
         response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) # accesses the website
         print("presidential election site status code:",response.status_code)
+        self.assertEqual(response.status_code, 200)
 
 
     # test that the va department of elections gubernatorial results page is responding
@@ -25,6 +26,7 @@ class TestRequests(unittest.TestCase):
         url = "https://historical.elections.virginia.gov/elections/search/year_from:1924/year_to:2017/office_id:3/stage:General"
         response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) # accesses the website
         print("gubernatorial election site status code:",response.status_code)
+        self.assertEqual(response.status_code, 200)
 
 
 if __name__ == '__main__':

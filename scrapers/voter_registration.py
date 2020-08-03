@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Jul 25 09:03:11 2020
-
-@author: seangrace
-"""
 
 import requests
 import pandas as pd
@@ -49,8 +42,6 @@ def percentages(seq):
     clean_seq = seq.replace(' ', '')
     clean_seq = clean_seq.strip('*')
     return float(clean_seq.strip('%'))/100
-
-### web scraping section ###
 
 #iterate over the rows to extract table data stored in 'td' elements
 for row in rows:

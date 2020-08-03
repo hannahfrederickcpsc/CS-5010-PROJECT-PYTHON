@@ -59,8 +59,6 @@ class electChecktest(unittest.TestCase):
         check_year = '1980'
         self.assertTrue(va_elect(check_year))
 
-
-
 if __name__ == '__main__':
     unittest.main()
 

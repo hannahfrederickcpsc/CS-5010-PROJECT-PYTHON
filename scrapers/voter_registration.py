@@ -29,7 +29,7 @@ columns = [col.get_text() for col in table.find_all("th")] # table headers are s
 #print(columns)
 
 #create df which the data will be concated onto
-final_df = pd.DataFrame(columns=columns)
+virginia_results = pd.DataFrame(columns=columns)
 #print(final_df)
 
 #each row is in a 'tr' element
@@ -71,28 +71,10 @@ for row in rows:
     temp_df.columns = columns
     
     # concat temporary dataframe (row) onto final datafram
-    final_df = pd.concat([final_df, temp_df], ignore_index=True)
+    virginia_results = pd.concat([virginia_results, temp_df], ignore_index=True)
 
-
-final_df.head()
-final_df.columns
-final_df['Percentage Change from Previous Year'].head()
-
-final_df.to_csv(r"voter_registration.csv", index = False, sep=',')
-
-### data cleaning/merging section ###
-
-voting_data = pd.read_csv("Virginia_Voting_Data.csv")
-election_results = pd.read_csv("elections_results.csv")
-# cast year to integer in both dataframes
-voting_data["Year"] = voting_data["Year"].astype(int)
-election_results["Year"] = election_results["Year"].astype(int)
-# specify outer join with how='outer'
-df_final = pd.merge(voting_data, election_results,  on='Year', how='outer')
-df_final = df_final.loc[:43,]
-df_final = df_final.rename(columns={"Winner" : "Winner (VA)"})
-# index=False hides index column, sep="," separates at commas
-df_final.to_csv("completed_cleaned.csv", index=False, sep=",")
+#convert our data frame to a csv file
+virginia_results.to_csv(r"voter_registration.csv", index = False, sep=',')
 
 #%%
 ### hannah's query asking section ###

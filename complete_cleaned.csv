@@ -1,4 +1,4 @@
-Year,Total Registered,Percentage Change from Previous Year,Total Voting,Turnout (% Voting of Total Registered),Voting Absentee (Included in Total Voting),Office,Winner,Party,Winner's Vote Count,Winner's Percent of Total Votes
+Year,Total Registered,Percentage Change from Previous Year,Total Voting,Turnout (% Voting of Total Registered),Voting Absentee (Included in Total Voting),Office,Winner (VA),Party,Winner's Vote Count,Winner's Percent of Total Votes
 2019,5628035.0,-0.01,2383646.0,0.424,144360.0,,,,,
 2018,5666962.0,0.0331,3374382.0,0.595,337315.0,,,,,
 2017,5489530.0,-0.0073,2612309.0,0.476,192397.0,Governor,Ralph Shearer Northam,Democratic,1408818.0,0.539

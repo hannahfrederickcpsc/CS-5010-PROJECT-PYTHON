@@ -3,13 +3,20 @@
 # how to load in a saved html file instead of requesting one: https://stackoverflow.com/questions/21570780/using-python-and-beautifulsoup-saved-webpage-source-codes-into-a-local-file
 
 import csv
+import requests
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(open('va_elections.html'), 'html.parser')
+url = "https://historical.elections.virginia.gov/elections/search/year_from:1924/year_to:2017/office_id:3/stage:General"
+response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}) # accesses the website
+
+# turning the response from the website into an html object that we can turn into a soup object
+html = response.content
+
+soup = BeautifulSoup(html, 'html.parser')
 
 election_results = []
 
-table_body = soup.find('tbody')     # grab the body of the table element                                 
+table_body = soup.find('tbody')     # grab the body of the table element                                     
 
 # grab only the rows that are election items (tr = table row)                                                                        
 for row in table_body.find_all('tr', class_="election_item"):       
@@ -22,9 +29,9 @@ for row in table_body.find_all('tr', class_="election_item"):
     sub_table_container = row.find("td", class_="candidates_container_cell")
 
     single_year["Year"] = year.text
-    # single_year["Office"] = office.text
+    single_year["Office"] = office.text
     # single_year["District"] = district.text
-    single_year["Winner"] = sub_table_container.div.span.text
+    single_year["Winner (VA)"] = sub_table_container.div.span.text
 
     # enter the drop down tables in each row of the main table only for the winning candidate
     for sub_row in sub_table_container.find_all('tr', class_="is_winner"):
@@ -43,9 +50,9 @@ for row in table_body.find_all('tr', class_="election_item"):
     election_results.append(single_year)
 
 # convert election_results list of dictionaries into csv
-filename = 'elections_results.csv'
+filename = 'governor_results.csv'
 with open(filename, 'w', newline='') as f: 
-    w = csv.DictWriter(f,['Year', 'Winner', 'Party', "Winner's Vote Count", "Winner's Percent of Total Votes"]) 
+    w = csv.DictWriter(f,['Year', 'Office', 'Winner (VA)', 'Party', "Winner's Vote Count", "Winner's Percent of Total Votes"]) 
     w.writeheader() 
     for year in election_results: 
         w.writerow(year)

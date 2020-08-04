@@ -35,6 +35,14 @@ class turnoutDifferencetest(unittest.TestCase):
 stats.ttest_ind(pres_years['Turnout (% Voting of Total Registered)'], nonpres_years['Turnout (% Voting of Total Registered)'], equal_var=False)
 print('The p-value of the two-tailed t-test is very low, indicating that there is a significant difference in the mean turnout in presidential election years versus non-presidential election years.')
 
+
+# statistical test on significance of Motor Voter Act in 1996
+premotor = data.loc[data['Year'] < 1996]
+postmotor = data.loc[data['Year'] >= 1996]
+
+# 2 tailed t-test to see if this is a significant difference in means
+stats.ttest_ind(premotor['Total Registered'], postmotor['Total Registered'], equal_var=False)
+print('The p-value of the two-tailed t-test is very low, indicating that there is a significant difference in the total number of registered voters before and after the implementation of the Motor Voter Act in 1996.')
 # =======================================================================================================
 
 # Did VA elect the winning candidate in any given year?

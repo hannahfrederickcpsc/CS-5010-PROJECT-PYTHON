@@ -1,4 +1,4 @@
- # CS 5010 Final Project
+# CS 5010 Final Project
 
 ## Authors
 
